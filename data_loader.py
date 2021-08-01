@@ -43,7 +43,7 @@ class MyDataSet(data.Dataset):
             self.ids = self.test_lis
         elif self.partition == 'all':
              self.ids = self.train_lis +self.valid_lis + self.test_lis
-             pkl.dump(self.ids, open('/home/pku1616/liny/food/APP/rec_ids.pkl', 'wb'))
+             pkl.dump(self.ids, open('./mini_food_data/data_90/rec_ids.pkl', 'wb'))
         else:
             raise Exception('Unknown partition type %s.' % partition)
 
@@ -88,7 +88,7 @@ class MyDataSet(data.Dataset):
         step_feature = self.zero_padding(
             np.load(os.path.join(subdir, str(recipId)+'_step.npy')), self.wordMaxlen)
         
-        stepimg_feature = self.zero_padding(
+        stepping_feature = self.zero_padding(
            np.load(os.path.join(self.step_img_path, str(recipId)+'.npy')), self.imageMaxlen)
 
 
@@ -100,7 +100,7 @@ class MyDataSet(data.Dataset):
         if self.transform is not None:
             img_feature = self.transform(img_feature)
 
-        img_feature_verb = np.load(os.path.join(self.final_img_verb_path, str(recipId)+'.npy'))
+        #img_feature_verb = np.load(os.path.join(self.final_img_verb_path, str(recipId)+'.npy'))
         img_feature_verb = np.reshape(img_feature, (-1))
 
         rec_class = self.classes[str(recipId)]
@@ -109,10 +109,10 @@ class MyDataSet(data.Dataset):
         title_feature = np.array(title_feature, dtype='float32')
         ingr_feature = np.array(ingr_feature, dtype='float32')
         step_feature = np.array(step_feature, dtype='float32')
-        stepimg_feature = np.array(stepimg_feature, dtype='float32')
+        stepping_feature = np.array(stepping_feature, dtype='float32')
         img_feature_verb = np.array(img_feature_verb, dtype='float32')
 
-        return [title_feature, ingr_feature, step_feature, stepimg_feature, img_feature, img_feature_verb], [img_class, rec_class]
+        return [title_feature, ingr_feature, step_feature, stepping_feature, img_feature, img_feature_verb], [img_class, rec_class]
         
 
                 

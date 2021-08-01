@@ -62,7 +62,7 @@ class encoder_model(nn.Module):
 		slf_attn_mask = get_attn_key_pad_mask(seq_k=inputs, seq_q=inputs)
 		non_pad_mask = get_non_pad_mask(inputs)
 
-		pos_ind = self.position_ind.repeat(N,1) * non_pad_mask.squeeze().long()
+		pos_ind = (self.position_ind.cpu().repeat(N,1) * non_pad_mask.cpu().squeeze().long()).to(device=torch.device('cuda'))
 
 		
 		if self.use_posenc:
