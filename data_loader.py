@@ -62,7 +62,7 @@ class MyDataSet(data.Dataset):
         self.imageMaxlen = opts.imageMaxlen
 
         self.recipe_path = opts.recipe_path
-        self.step_img_path = opts.step_img_path
+        # self.step_img_path = opts.step_img_path
         self.final_img_path = opts.final_img_path
         self.final_img_verb_path = opts.final_img_verb_path
         self.final_img_ori_path = opts.final_img_ori_path
@@ -88,8 +88,8 @@ class MyDataSet(data.Dataset):
         step_feature = self.zero_padding(
             np.load(os.path.join(subdir, str(recipId)+'_step.npy')), self.wordMaxlen)
         
-        stepping_feature = self.zero_padding(
-           np.load(os.path.join(self.step_img_path, str(recipId)+'.npy')), self.imageMaxlen)
+        # stepping_feature = self.zero_padding(
+        #   np.load(os.path.join(self.step_img_path, str(recipId)+'.npy')), self.imageMaxlen)
 
 
         #img_feature = np.load(os.path.join(self.final_img_path, str(recipId)+'.npy'))
@@ -109,10 +109,13 @@ class MyDataSet(data.Dataset):
         title_feature = np.array(title_feature, dtype='float32')
         ingr_feature = np.array(ingr_feature, dtype='float32')
         step_feature = np.array(step_feature, dtype='float32')
-        stepping_feature = np.array(stepping_feature, dtype='float32')
+        #stepping_feature = np.array(stepping_feature, dtype='float32')
         img_feature_verb = np.array(img_feature_verb, dtype='float32')
 
-        return [title_feature, ingr_feature, step_feature, stepping_feature, img_feature, img_feature_verb], [img_class, rec_class]
+        stepping_feature = np.array([], dtype='float32')
+
+        return [title_feature, ingr_feature, step_feature, # stepping_feature,
+                img_feature, img_feature_verb], [img_class, rec_class]
         
 
                 

@@ -54,12 +54,12 @@ def main():
                         num_heads = opts.numHeads,
                         embedding_dim = opts.embDim,
                         dropout_rate = opts.dropout).to(device=device)
-    #model.cuda(device=device)
+    # model.cuda(device=device)
 
     criterion = Triplet().cuda(device=device)
 
     img_params = list(map(id, model.image.resnet.parameters()))
-    rec_params   = filter(lambda p: id(p) not in img_params, model.parameters())
+    rec_params = filter(lambda p: id(p) not in img_params, model.parameters())
     optimizer = torch.optim.Adam([
                     {'params': rec_params},
                     {'params': model.image.resnet.parameters(), 'lr': opts.lr*opts.freeImage }
@@ -222,6 +222,7 @@ def train_epoch(model, criterion, train_loader, optimizer, epoch):
     model.train()
 
     for i, (inputs, classes) in enumerate(train_loader):
+        torch.cuda.empty_cache()
         data_time += time.time() - end
         end = time.time()
 
@@ -235,7 +236,7 @@ def train_epoch(model, criterion, train_loader, optimizer, epoch):
             class_var.append(torch.autograd.Variable(classes[j]))
 
         # compute output
-        output = model(input_var[0], input_var[1], input_var[2], input_var[3], input_var[4])
+        output = model(input_var[0], input_var[1], input_var[2], input_var[3]) #, input_var[4])
 
         loss = criterion(output[0], output[1], class_var[0], class_var[1])
 
@@ -261,7 +262,7 @@ def validate(model, criterion, valid_loader):
             for j in range(len(inputs)):
                 input_var.append(torch.autograd.Variable(inputs[j]).cuda(device=device))
 
-            output = model(input_var[0],input_var[1], input_var[2], input_var[3], input_var[4])
+            output = model(input_var[0],input_var[1], input_var[2], input_var[3]) #, input_var[4])
 
             if i==0:
                 data0 = output[0].data.cpu().numpy()
@@ -287,7 +288,7 @@ def test(model, criterion, test_loader, test_lis_split):
             for j in range(len(inputs)):
                 input_var.append(torch.autograd.Variable(inputs[j]).cuda())
 
-            output = model(input_var[0],input_var[1], input_var[2], input_var[3], input_var[4])
+            output = model(input_var[0],input_var[1], input_var[2], input_var[3]) # , input_var[4])
 
             if i==0:
                 data0 = output[0].data.cpu().numpy()

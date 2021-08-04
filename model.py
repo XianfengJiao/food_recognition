@@ -124,7 +124,8 @@ class co_attention_model(nn.Module):
 										dropout_rate = self.dropout_rate)
 
 
-	def forward(self, inputs_words, inputs_images):
+	# def forward(self, inputs_words, inputs_images):
+	def forward(self, inputs_words): # delete inputs_images
 		# step self-encoder
 		inputs = inputs_words.transpose(1, 2)
 		inputs = self.conv(inputs)
@@ -221,14 +222,16 @@ class recipe_model(nn.Module):
 		'''
 		
 
-	def forward(self, inputs_title, inputs_ingrs, inputs_words, inputs_images):
+	# def forward(self, inputs_title, inputs_ingrs, inputs_words, inputs_images):
+	def forward(self, inputs_title, inputs_ingrs, inputs_words): # delete input_images
 		self.title_featue = self.title_model(inputs_title)
 		self.title_featue = self.title_attn(self.title_featue)
 		
 		self.ingr_feature = self.ingr_model(inputs_ingrs)
 		self.ingr_feature = self.ingr_attn(self.ingr_feature)
 
-		self.co_step_feature = self.co_step_model(inputs_words, inputs_images)
+		# self.co_step_feature = self.co_step_model(inputs_words, inputs_images)
+		self.co_step_feature = self.co_step_model(inputs_words) # delete inputs_images
 		self.co_step_feature = self.step_attn(self.co_step_feature)
 
 		outputs = torch.cat([self.title_featue, self.ingr_feature, self.co_step_feature], 1)
@@ -329,8 +332,11 @@ class full_model(nn.Module):
 		params.append({'params': self.image.embedding.parameters()})
 		return params
 
-	def forward(self, inputs_title, inputs_ingrs, inputs_words, inputs_images, inputs_finalimage):
-		self.recipe_embedding = self.recipe(inputs_title, inputs_ingrs, inputs_words, inputs_images)
+	# def forward(self, inputs_title, inputs_ingrs, inputs_words, inputs_images, inputs_finalimage):
+	# delete step-image: inputs_images
+	def forward(self, inputs_title, inputs_ingrs, inputs_words, inputs_finalimage):
+		# self.recipe_embedding = self.recipe(inputs_title, inputs_ingrs, inputs_words, inputs_images)
+		self.recipe_embedding = self.recipe(inputs_title, inputs_ingrs, inputs_words)
 		self.image_embedding = self.image(inputs_finalimage)
 
 		return [self.image_embedding, self.recipe_embedding]

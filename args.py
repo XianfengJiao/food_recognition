@@ -1,5 +1,5 @@
 import argparse
-
+root = "./mini_food_data_matched"
 
 def get_parser():
     parser = argparse.ArgumentParser(description='model parameters')
@@ -9,21 +9,21 @@ def get_parser():
 
     # data
     parser.add_argument('--final_img_path', default='./finalImages_finetune/')  # missing
-    parser.add_argument('--final_img_ori_path', default='./mini_food_data/FoodImages/')
+    parser.add_argument('--final_img_ori_path', default=f'{root}/FoodImages/')
     parser.add_argument('--final_img_verb_path', default='./finalImages_finetune_verb/')  # missing
-    parser.add_argument('--step_img_path', default='./mini_food_data/StepImages/')  # missing data
-    parser.add_argument('--recipe_path', default='./mini_food_data/recipe_feat_new/')
+    # parser.add_argument('--step_img_path', default=f'{root}/StepImages/')
+    parser.add_argument('--recipe_path', default=f'{root}/recipe_feat_new/')
 
-    parser.add_argument('--train_lis', default='./mini_food_data/data_90/train_lis.pkl')
-    parser.add_argument('--valid_lis', default='./mini_food_data/data_90/valid_lis.pkl')
-    parser.add_argument('--test_lis', default='./mini_food_data/data_90/test_lis.pkl')
-    parser.add_argument('--test_lis_split', default='./mini_food_data/data_90/test_lis_split.pkl')
-    parser.add_argument('--classes', default='./mini_food_data/data_90/class.pkl')
+    parser.add_argument('--train_lis', default=f'{root}/data_90/train_lis.pkl')
+    parser.add_argument('--valid_lis', default=f'{root}/data_90/valid_lis.pkl')
+    parser.add_argument('--test_lis', default=f'{root}/data_90/test_lis.pkl')
+    parser.add_argument('--test_lis_split', default=f'{root}/data_90/test_lis_split.pkl')
+    parser.add_argument('--classes', default=f'{root}/data_90/class.pkl')
 
-    parser.add_argument('--VireoFood172', default='./mini_food_data/data_90/VireoFood172_finetune_path_list.pkl')
-    parser.add_argument('--recipe_dict', default='./mini_food_data/data_90/recipeDict.pkl')
-    parser.add_argument('--name_dict', default='./mini_food_data/data_90/nameDict.pkl')
-    parser.add_argument('--word_mat', default='./mini_food_data/data_90/word_mat.npy')
+    parser.add_argument('--VireoFood172', default=f'{root}/data_90/VireoFood172_finetune_path_list.pkl')
+    parser.add_argument('--recipe_dict', default=f'{root}/data_90/recipeDict.pkl')
+    parser.add_argument('--name_dict', default=f'{root}/data_90/nameDict.pkl')
+    parser.add_argument('--word_mat', default=f'{root}/data_90/word_mat.npy')
 
     # im2recipe model
     parser.add_argument('--embDim', default=1024, type=int)
