@@ -121,4 +121,3 @@ class MyDataSet(data.Dataset):
                 
     def __len__(self):  
         return len(self.ids)
-        

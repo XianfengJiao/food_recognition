@@ -37,7 +37,7 @@ def get_parser():
     parser.add_argument('--imageDim', default=2048, type=int)
 
     # about the batch
-    parser.add_argument('--batch_size', default=5, type=int) # modify batch_size = 5
+    parser.add_argument('--batch_size', default=10, type=int) # modify
     parser.add_argument('--semantic_pc', default=0.4, type=float)
     parser.add_argument('--same_class_num', default=2, type=int)
 
@@ -65,10 +65,10 @@ def get_parser():
 
     # MedR / Recall@1 / Recall@5 / Recall@10
     parser.add_argument('--embtype', default='image', type=str)  # [image|recipe] query type
-    parser.add_argument('--medr', default=10, type=int) # modify medr.default = 10
+    parser.add_argument('--medr', default=30, type=int) # modify
 
     parser.add_argument('--patience', default=3, type=int)
-    parser.add_argument('--startTest', default=50, type=int)
+    parser.add_argument('--startTest', default=20, type=int) # modify
     parser.add_argument('--freeImage', default=False, type=bool)
     parser.add_argument('--freeRecipe', default=True, type=bool)
     parser.add_argument('--checkpoint', default='./ckpt/', type=str)

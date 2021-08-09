@@ -337,9 +337,15 @@ def rank(opts, img_embeds, rec_embeds, rank_lis=None, embtype=None):
         valid_times = len(rank_lis)
         ids = rank_lis
 
+    # Modify to adapt to mini dataSet.
+    for i in range(len(ids)):
+        for j in range(len(ids[i])):
+            ids[i][j] = ids[i][j] % num_examples
+
     glob_rank = []
     glob_recall = {1:0.0,5:0.0,10:0.0}
     for i in range(valid_times):
+        
         img_sub = img_embeds[ids[i],:]
         rec_sub = rec_embeds[ids[i],:]
 
