@@ -14,9 +14,9 @@ def get_parser():
     # parser.add_argument('--step_img_path', default=f'{root}/StepImages/')
     parser.add_argument('--recipe_path', default=f'{root}/recipe_feat_new/')
 
-    parser.add_argument('--train_lis', default=f'{root}/data_90/train_lis.pkl')
-    parser.add_argument('--valid_lis', default=f'{root}/data_90/valid_lis.pkl')
-    parser.add_argument('--test_lis', default=f'{root}/data_90/test_lis.pkl')
+    parser.add_argument('--train_lis', default=f'{root}/data_90/train_lis_toy.pkl') # modify toy
+    parser.add_argument('--valid_lis', default=f'{root}/data_90/valid_lis_toy.pkl') # modify toy
+    parser.add_argument('--test_lis', default=f'{root}/data_90/test_lis_toy.pkl') # modify toy
     parser.add_argument('--test_lis_split', default=f'{root}/data_90/test_lis_split.pkl')
     parser.add_argument('--classes', default=f'{root}/data_90/class.pkl')
 
@@ -37,7 +37,7 @@ def get_parser():
     parser.add_argument('--imageDim', default=2048, type=int)
 
     # about the batch
-    parser.add_argument('--batch_size', default=50, type=int)
+    parser.add_argument('--batch_size', default=5, type=int) # modify batch_size = 5
     parser.add_argument('--semantic_pc', default=0.4, type=float)
     parser.add_argument('--same_class_num', default=2, type=int)
 
@@ -65,7 +65,7 @@ def get_parser():
 
     # MedR / Recall@1 / Recall@5 / Recall@10
     parser.add_argument('--embtype', default='image', type=str)  # [image|recipe] query type
-    parser.add_argument('--medr', default=1000, type=int)
+    parser.add_argument('--medr', default=10, type=int) # modify medr.default = 10
 
     parser.add_argument('--patience', default=3, type=int)
     parser.add_argument('--startTest', default=50, type=int)

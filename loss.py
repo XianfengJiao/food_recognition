@@ -40,7 +40,7 @@ class Triplet(nn.Module):
         class1_matrix = class1.repeat(class1.size(0), 1)
         class2_matrix = class2.repeat(class2.size(0), 1).t()
 
-        matrix_mask = ((class1_matrix != 0) + (class2_matrix != 0)) == 2
+        matrix_mask = ((class1_matrix != 0).int() + (class2_matrix != 0).int()) == 2
 
         same_class = torch.eq(class1_matrix, class2_matrix)
         anti_class = same_class.clone()
@@ -49,12 +49,14 @@ class Triplet(nn.Module):
         if erase_diagonal:
             same_class[range(same_class.size(0)),range(same_class.size(1))] = 0 # erase instance-instance pairs
         new_dimension = matrix_mask.int().sum(1).max().item()
+
         same_class = torch.masked_select(same_class, matrix_mask).view(new_dimension, new_dimension)
         anti_class = torch.masked_select(anti_class, matrix_mask).view(new_dimension, new_dimension)
         mdistances = torch.masked_select(distances, matrix_mask).view(new_dimension, new_dimension)
 
         same_class[same_class.cumsum(dim=1) > 1] = 0 # erasing extra positives
         pos_samples = torch.masked_select(mdistances, same_class) # only the first one
+
         min_neg_samples = anti_class.int().sum(1).min().item() # selecting max negatives possible
         anti_class[anti_class.cumsum(dim=1) > min_neg_samples] = 0 # erasing extra negatives
         neg_samples = torch.masked_select(mdistances, anti_class).view(new_dimension, min_neg_samples)
